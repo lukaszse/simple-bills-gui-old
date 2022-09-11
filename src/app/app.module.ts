@@ -22,12 +22,11 @@ import {HttpClientModule} from "@angular/common/http";
     ContentComponent,
     HomeComponent,
     BillsComponent,
-    ContactComponent,
-    BrowserModule,
-    HttpClientModule
+    ContactComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     NgbModule
   ],
