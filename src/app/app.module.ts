@@ -10,6 +10,8 @@ import {HomeComponent} from './content/home/home.component';
 import {BillsComponent} from './content/bills/bills.component';
 import {ContactComponent} from './content/contact/contact.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientModule} from "@angular/common/http";
+
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HomeComponent,
     BillsComponent,
     ContactComponent,
+    BrowserModule,
+    HttpClientModule
   ],
   imports: [
     BrowserModule,
