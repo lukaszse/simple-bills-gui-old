@@ -1,7 +1,7 @@
-import {Component, Directive, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
-import {map, Observable, tap} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Observable, tap} from "rxjs";
+import {map} from 'rxjs/operators'
+import {HttpClientService, NgbdSortableHeader, SortEvent, compare} from "../../httpClient.service";
 
 interface Course {
   description: string;
@@ -27,25 +27,41 @@ interface Bill {
 })
 export class BillsComponent implements OnInit {
 
-  bills$: Observable<Bill[]>
+  private static billsEndpoint: string = "/bills";
+  bills$: Observable<Bill[]>;
 
-  constructor(private http:HttpClient) { }
+  constructor(private httpClientService:HttpClientService) { }
 
   ngOnInit() {
-    this.bills$ = this.http
-      .get<Bill[]>("http://localhost:8080/bills", this.prepareHttpOptions()).pipe(
-        tap(console.log)
-      );
+    this.bills$ = this.getBillsObservable();
   }
 
-  prepareHttpOptions() {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Basic YW50ZWs6MTIzNDU=`
-      })
-    };
-    console.log(httpOptions)
-    return httpOptions;
+  getBillsObservable() : Observable<Bill[]> {
+    return this.httpClientService
+      .get(BillsComponent.billsEndpoint).pipe(
+      tap(console.log));
+  }
+
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
+  onSort({column, direction}: SortEvent) {
+
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.bills$ = this.getBillsObservable();
+    } else {
+      this.bills$ = this.getBillsObservable().pipe(
+        map(bills => bills.sort((a, b) => {
+          const res = compare(a[column], b[column]);
+          return direction === 'asc' ? res : -res;
+        } )));
+    }
   }
 }

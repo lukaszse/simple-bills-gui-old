@@ -4,10 +4,10 @@
   <thead>
   <tr>
     <th scope="col">#</th>
-    <th scope="col">Date</th>
-    <th scope="col">Amount</th>
-    <th scope="col">Description</th>
-    <th scope="col">Category</th>
+    <th scope="col" sortable="date" (sort)="onSort($event)">Date</th>
+    <th scope="col" sortable="amount" (sort)="onSort($event)">Amount</th>
+    <th scope="col" sortable="description" (sort)="onSort($event)">Description</th>
+    <th scope="col" sortable="category" (sort)="onSort($event)">Category</th>
 
   </tr>
   </thead>
