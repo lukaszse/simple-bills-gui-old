@@ -3,14 +3,6 @@ import {Observable, tap} from "rxjs";
 import {map} from 'rxjs/operators'
 import {HttpClientService, NgbdSortableHeader, SortEvent, compare} from "../../httpClient.service";
 
-interface Course {
-  description: string;
-  courseListIcon: string;
-  iconUrl: string;
-  longDescription: string;
-  url: string;
-}
-
 interface Bill {
   billNumber: string;
   user: string
@@ -53,7 +45,7 @@ export class BillsComponent implements OnInit {
       }
     });
 
-    // sorting countries
+    // sorting table
     if (direction === '' || column === '') {
       this.bills$ = this.getBillsObservable();
     } else {
