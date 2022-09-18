@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import {map, tap, Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {Component, Directive, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {map, Observable, tap} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
-import * as _ from 'lodash';
 
 interface Course {
   description: string;
-  courseListIcon:string;
-  iconUrl:string;
-  longDescription:string;
-  url:string;
+  courseListIcon: string;
+  iconUrl: string;
+  longDescription: string;
+  url: string;
+}
+
+interface Bill {
+  billNumber: string;
+  user: string
+  date: string
+  description: string
+  category: string
+  amount: number,
 }
 
 @Component({
@@ -19,15 +27,25 @@ interface Course {
 })
 export class BillsComponent implements OnInit {
 
-  courses$: Observable<Course[]>;
+  bills$: Observable<Bill[]>
 
   constructor(private http:HttpClient) { }
 
   ngOnInit() {
-    this.courses$ = this.http
-      .get<Course[]>("https://angular-http-guide.firebaseio.com/courses.json").pipe(
-        map(data => _.values(data)),
+    this.bills$ = this.http
+      .get<Bill[]>("http://localhost:8080/bills", this.prepareHttpOptions()).pipe(
         tap(console.log)
       );
+  }
+
+  prepareHttpOptions() {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Basic YW50ZWs6MTIzNDU=`
+      })
+    };
+    console.log(httpOptions)
+    return httpOptions;
   }
 }

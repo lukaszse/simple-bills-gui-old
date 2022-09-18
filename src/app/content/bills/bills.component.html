@@ -1,8 +1,27 @@
 <p>bills works!</p>
 <br>
-<ul *ngIf="courses$ | async as courses else noData">
-  <li *ngFor="let course of courses">
-    {{course.description}}
-  </li>
-</ul>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Date</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Description</th>
+    <th scope="col">Category</th>
+
+  </tr>
+  </thead>
+  <tbody *ngIf="bills$ | async as bills else noData">
+  <tr *ngFor="let bill of bills; index as i">
+    <th scope="row">{{ bill.billNumber}}</th>
+    <td>{{ bill.date | date }}</td>
+    <td>{{ bill.amount | number }}</td>
+    <td>{{ bill.description }}</td>
+    <td>{{ bill.category }}</td>
+
+  </tr>
+  </tbody>
+</table>
+
+
 <ng-template #noData>No Data Available</ng-template>
