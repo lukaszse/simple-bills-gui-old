@@ -1,6 +1,7 @@
-import {Component, Directive, EventEmitter, Injectable, Input, Output, QueryList, ViewChildren} from "@angular/core";
+import {Directive, EventEmitter, Injectable, Input, Output} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Config} from "./config";
+import {Cookie} from "ng2-cookies";
 
 @Injectable({providedIn: "root"})
 export class HttpClientService {
@@ -17,7 +18,8 @@ export class HttpClientService {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Basic YW50ZWs6MTIzNDU=`
+        // 'Authorization': `Basic YW50ZWs6MTIzNDU=`
+        'Authorization': 'Bearer '+ Cookie.get('access_token')
       })
     };
     console.log(httpOptions)
@@ -25,7 +27,7 @@ export class HttpClientService {
   }
 
   private static prepareUrl(endpoint: string) {
-    return `${Config.staticSimpleBillsUrl}${endpoint}`;
+    return `${Config.staticSimpleBillsHost}${endpoint}`;
   }
 }
 

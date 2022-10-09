@@ -24,6 +24,7 @@
     "@reactivex/rxjs": "^5.5.12",
     "bootstrap": "^5.2.0",
     "jquery": "^3.6.1",
+    "ng2-cookies": "^1.0.12",
     "rxjs": "~7.5.0",
     "save": "^2.5.0",
     "tslib": "^2.3.0",
